@@ -16,7 +16,6 @@ public class Bank {
     private long bankSerialNumber;
 
 
-
     public Bank() {
     }
 
