@@ -2,12 +2,15 @@ package com.example.springbootapp.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
+
 @Entity
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    @Column(name = "first_name")
     private String firstName;
 
     private String secondName;
@@ -15,6 +18,11 @@ public class Client {
     private String email;
 
     private String phoneNumber;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Bank bank;
+
+
 
     public Client() {
     }
@@ -60,6 +68,40 @@ public class Client {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+
+        if (id != client.id) return false;
+        if (!Objects.equals(firstName, client.firstName)) return false;
+        if (!Objects.equals(secondName, client.secondName)) return false;
+        if (!Objects.equals(email, client.email)) return false;
+        if (!Objects.equals(phoneNumber, client.phoneNumber)) return false;
+        return Objects.equals(bank, client.bank);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (secondName != null ? secondName.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (bank != null ? bank.hashCode() : 0);
+        return result;
     }
 
     public void setPhoneNumber(String phoneNumber) {

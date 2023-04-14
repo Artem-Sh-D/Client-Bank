@@ -12,12 +12,16 @@ public class BankService {
         this.bankRepository = bankRepository;
     }
 
-    public void save(Bank bank) {
+    public void saveBank(Bank bank) {
         bankRepository.save(bank);
     }
 
+    public void updateBank(int lastName,String bankName, long bankSerialNumber) {
+
+    }
+
     public Bank findBankById(int id) {
-        return bankRepository.findBankById(id);
+        return bankRepository.findById(id);
     }
 
     public Bank findBankByBankName(String bankName) {
@@ -27,4 +31,5 @@ public class BankService {
     public Bank findBankByBankSerialNumber(Long serialNumber) {
         return bankRepository.findClientByBankSerialNumber(serialNumber);
     }
+
 }

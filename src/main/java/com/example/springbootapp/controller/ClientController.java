@@ -1,9 +1,12 @@
 package com.example.springbootapp.controller;
 
+import com.example.springbootapp.model.Bank;
 import com.example.springbootapp.model.Client;
 import com.example.springbootapp.services.BankService;
 import com.example.springbootapp.services.ClientService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/client")
@@ -22,10 +25,16 @@ public class ClientController {
         return clientService.findClientById(id);
     }
 
+    @GetMapping("/allClient")
+    public List<Client> getClients() {
+        return clientService.findAll();
+    }
+
     @PostMapping(value = "/new")
-    public void sayHello(@RequestBody Client client) {
+    public void setClient(@RequestBody Client client) {
         clientService.saveClient(client);
     }
+
 
 
 }

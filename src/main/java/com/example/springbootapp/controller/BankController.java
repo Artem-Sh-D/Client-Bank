@@ -2,7 +2,6 @@ package com.example.springbootapp.controller;
 
 import com.example.springbootapp.model.Bank;
 import com.example.springbootapp.services.BankService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +21,11 @@ public class BankController {
 
     @PostMapping("/new")
     public void saveBank(@RequestBody Bank bank) {
-        bankService.save(bank);
+        bankService.saveBank(bank);
+    }
+
+    @PutMapping("/update/{id}")
+    public void updateBank(@PathVariable int id, @RequestBody Bank bank) {
+
     }
 }
