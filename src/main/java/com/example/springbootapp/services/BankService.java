@@ -1,8 +1,12 @@
 package com.example.springbootapp.services;
 
 import com.example.springbootapp.model.Bank;
+import com.example.springbootapp.util.bank.BankNotFoundException;
 import com.example.springbootapp.repositories.BankRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BankService {
@@ -12,24 +16,19 @@ public class BankService {
         this.bankRepository = bankRepository;
     }
 
+    public Bank findBankById(int id) {
+        Optional<Bank> bank = bankRepository.findById(id);
+        return bank.orElseThrow(BankNotFoundException::new);
+    }
+
+    public List<Bank> findAll() {
+        return bankRepository.findAll();
+    }
+
     public void saveBank(Bank bank) {
         bankRepository.save(bank);
     }
 
-    public void updateBank(int lastName,String bankName, long bankSerialNumber) {
 
-    }
-
-    public Bank findBankById(int id) {
-        return bankRepository.findById(id);
-    }
-
-    public Bank findBankByBankName(String bankName) {
-        return bankRepository.findClientByBankName(bankName);
-    }
-
-    public Bank findBankByBankSerialNumber(Long serialNumber) {
-        return bankRepository.findClientByBankSerialNumber(serialNumber);
-    }
 
 }

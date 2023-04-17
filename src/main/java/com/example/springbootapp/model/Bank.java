@@ -1,6 +1,9 @@
 package com.example.springbootapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,9 +15,14 @@ public class Bank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
+    @Column(name = "bank_name")
+    @NotEmpty(message = "Bank name should not be empty")
+    @Size(min = 2, max = 30, message = "Bank name should be between 2 and 30 characters")
     private String bankName;
 
+    @Column(name = "serial_number")
+    @NotEmpty(message = "Serial number should not be empty")
+    @Pattern(regexp = "")
     private long bankSerialNumber;
 
     @OneToMany(mappedBy = "bank")
@@ -35,9 +43,7 @@ public class Bank {
         this.id = id;
     }
 
-    public String getBankName() {
-        return bankName;
-    }
+    public String getBankName() { return bankName; }
 
     public void setBankName(String bankName) {
         this.bankName = bankName;

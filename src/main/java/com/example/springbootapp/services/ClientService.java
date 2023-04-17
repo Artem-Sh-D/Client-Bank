@@ -2,9 +2,11 @@ package com.example.springbootapp.services;
 
 import com.example.springbootapp.model.Client;
 import com.example.springbootapp.repositories.ClientRepository;
+import com.example.springbootapp.util.client.ClientNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -12,6 +14,11 @@ public class ClientService {
 
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
+    }
+
+    public Client findClientById(int id) {
+        Optional<Client> client = clientRepository.findById(id);
+        return client.orElseThrow(ClientNotFoundException::new);
     }
 
     public Client findClientByFirstName(String firstName) {
@@ -22,12 +29,8 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public void saveClient(Client client) {
+    public void save(Client client) {
         clientRepository.save(client);
-    }
-
-    public Client findClientById(int id) {
-        return clientRepository.findClientById(id);
     }
 
     public Client findClientByEmail(String email) {

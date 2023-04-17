@@ -1,6 +1,7 @@
 package com.example.springbootapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.util.Objects;
 
@@ -11,12 +12,22 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "first_name")
+    @NotEmpty(message = "First name should not be empty")
+    @Size(min = 2, max = 30, message = "First name should be between 2 and 30 characters")
     private String firstName;
 
+    @Column(name = "second_name")
+    @NotEmpty(message = "Second name should not be empty")
+    @Size(min = 2, max = 30, message = "Second name should be between 2 and 30 characters")
     private String secondName;
 
+    @Column(name = "email")
+    @Email
+    @NotEmpty(message = "Email should not be empty")
     private String email;
 
+    @Column(name = "phone_number")
+    @Pattern(regexp = "^(\\+7|7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$", message = "Does not match the russian number")
     private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -70,6 +81,10 @@ public class Client {
         return phoneNumber;
     }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public Bank getBank() {
         return bank;
     }
@@ -104,7 +119,4 @@ public class Client {
         return result;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }
