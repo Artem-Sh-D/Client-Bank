@@ -1,13 +1,11 @@
 package com.example.springbootapp.controller;
 
 import com.example.springbootapp.dto.BankDTO;
-import com.example.springbootapp.dto.ClientDTO;
 import com.example.springbootapp.model.Bank;
 import com.example.springbootapp.services.BankService;
 import com.example.springbootapp.util.bank.BankErrorResponse;
 import com.example.springbootapp.util.bank.BankNotCreateException;
 import com.example.springbootapp.util.bank.BankNotFoundException;
-import com.example.springbootapp.util.client.ClientNotCreateException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

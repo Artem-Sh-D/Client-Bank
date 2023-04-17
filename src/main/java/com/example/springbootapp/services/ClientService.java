@@ -1,5 +1,6 @@
 package com.example.springbootapp.services;
 
+import com.example.springbootapp.dto.ClientUpdateDTO;
 import com.example.springbootapp.model.Client;
 import com.example.springbootapp.repositories.ClientRepository;
 import com.example.springbootapp.util.client.ClientNotFoundException;
@@ -35,6 +36,21 @@ public class ClientService {
         clientRepository.save(client);
     }
 
+    public void update(int id, ClientUpdateDTO clientUpdate) {
+        Client client = findClientById(id);
+        client.setPhoneNumber(clientUpdate.getPhoneNumber());
+        client.setEmail(clientUpdate.getEmail());
+
+        clientRepository.save(client);
+    }
+
+    public void delete(int id) {
+        if(clientRepository.findById(id).isEmpty()) {
+            throw new ClientNotFoundException();
+        }
+        clientRepository.delete(findClientById(id));
+    }
+
     private void enrichClient(Client client) {
         client.setCreatedAt(LocalDateTime.now());
         client.setUpdateAt(LocalDateTime.now());
@@ -48,5 +64,7 @@ public class ClientService {
     public Client findClientBySecondName(String secondName) {
         return clientRepository.findClientBySecondName(secondName);
     }
+
+
 
 }

@@ -1,11 +1,13 @@
 package com.example.springbootapp.controller;
 
-import com.example.springbootapp.dto.ClientDTO;
+import com.example.springbootapp.dto.ClientCreateDTO;
+import com.example.springbootapp.dto.ClientUpdateDTO;
 import com.example.springbootapp.model.Client;
 import com.example.springbootapp.services.ClientService;
 import com.example.springbootapp.util.client.ClientErrorResponse;
 import com.example.springbootapp.util.client.ClientNotCreateException;
 import com.example.springbootapp.util.client.ClientNotFoundException;
+import com.example.springbootapp.util.client.ClientNotUpdateException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -31,13 +32,8 @@ public class ClientController {
         return clientService.findClientById(id);
     }
 
-    @GetMapping()
-    public List<Client> getClients() {
-        return clientService.findAll();
-    }
-
     @PostMapping(value = "/new")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid ClientDTO client,
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid ClientCreateDTO client,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
@@ -56,13 +52,38 @@ public class ClientController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    private Client covertToClient(ClientDTO clientDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<HttpStatus> update(@PathVariable int id, @RequestBody @Valid ClientUpdateDTO client,
+                                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for(FieldError error : errors) {
+                errorMessage.append(error.getField())
+                        .append(" - ").append(error.getDefaultMessage())
+                        .append(";");
+            }
+
+            throw new ClientNotUpdateException(errorMessage.toString());
+        }
+        clientService.update(id, client);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        clientService.delete(id);
+    }
+
+    private Client covertToClient(ClientCreateDTO clientCreateDTO) {
         Client client = new Client();
 
-        client.setFirstName(clientDTO.getFirstName());
-        client.setSecondName(clientDTO.getSecondName());
-        client.setEmail(clientDTO.getEmail());
-        client.setPhoneNumber(clientDTO.getPhoneNumber());
+        client.setFirstName(clientCreateDTO.getFirstName());
+        client.setSecondName(clientCreateDTO.getSecondName());
+        client.setEmail(clientCreateDTO.getEmail());
+        client.setPhoneNumber(clientCreateDTO.getPhoneNumber());
 
         return client;
     }
