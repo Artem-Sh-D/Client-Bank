@@ -5,6 +5,7 @@ import com.example.springbootapp.repositories.ClientRepository;
 import com.example.springbootapp.util.client.ClientNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,14 @@ public class ClientService {
     }
 
     public void save(Client client) {
+        enrichClient(client);
         clientRepository.save(client);
+    }
+
+    private void enrichClient(Client client) {
+        client.setCreatedAt(LocalDateTime.now());
+        client.setUpdateAt(LocalDateTime.now());
+        client.setCreatedWho("ADMIN");
     }
 
     public Client findClientByEmail(String email) {

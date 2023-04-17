@@ -25,10 +25,8 @@ public class BankService {
         return bankRepository.findAll();
     }
 
-    public void saveBank(Bank bank) {
+    public void save(Bank bank) {
         bankRepository.save(bank);
     }
-
-
 
 }

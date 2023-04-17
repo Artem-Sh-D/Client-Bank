@@ -1,5 +1,6 @@
 package com.example.springbootapp.controller;
 
+import com.example.springbootapp.dto.ClientDTO;
 import com.example.springbootapp.model.Client;
 import com.example.springbootapp.services.ClientService;
 import com.example.springbootapp.util.client.ClientErrorResponse;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -35,7 +37,7 @@ public class ClientController {
     }
 
     @PostMapping(value = "/new")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Client client,
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid ClientDTO client,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
@@ -49,10 +51,22 @@ public class ClientController {
 
             throw new ClientNotCreateException(errorMessage.toString());
         }
-        clientService.save(client);
+        clientService.save(covertToClient(client));
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    private Client covertToClient(ClientDTO clientDTO) {
+        Client client = new Client();
+
+        client.setFirstName(clientDTO.getFirstName());
+        client.setSecondName(clientDTO.getSecondName());
+        client.setEmail(clientDTO.getEmail());
+        client.setPhoneNumber(clientDTO.getPhoneNumber());
+
+        return client;
+    }
+
 
     @ExceptionHandler
     private ResponseEntity<ClientErrorResponse> handleException(ClientNotFoundException e) {

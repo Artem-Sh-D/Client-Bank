@@ -3,6 +3,7 @@ package com.example.springbootapp.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -29,6 +30,16 @@ public class Client {
     @Column(name = "phone_number")
     @Pattern(regexp = "^(\\+7|7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$", message = "Does not match the russian number")
     private String phoneNumber;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "update_at")
+    private LocalDateTime updateAt;
+
+    @Column(name = "created_who")
+    @NotEmpty
+    private String createdWho;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Bank bank;
@@ -91,6 +102,30 @@ public class Client {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public String getCreatedWho() {
+        return createdWho;
+    }
+
+    public void setCreatedWho(String createdWho) {
+        this.createdWho = createdWho;
     }
 
     @Override
