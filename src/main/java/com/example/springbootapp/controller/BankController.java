@@ -1,6 +1,6 @@
 package com.example.springbootapp.controller;
 
-import com.example.springbootapp.dto.BankDTO;
+import com.example.springbootapp.dto.BankCreateDTO;
 import com.example.springbootapp.model.Bank;
 import com.example.springbootapp.services.BankService;
 import com.example.springbootapp.util.bank.BankErrorResponse;
@@ -36,7 +36,7 @@ public class BankController {
     }
 
     @PostMapping(value = "/new")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid BankDTO bankDTO,
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid BankCreateDTO bankCreateDTO,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
@@ -50,16 +50,16 @@ public class BankController {
 
             throw new BankNotCreateException(errorMessage.toString());
         }
-        bankService.save(convertToBank(bankDTO));
+        bankService.save(convertToBank(bankCreateDTO));
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    private Bank convertToBank(BankDTO bankDTO) {
+    private Bank convertToBank(BankCreateDTO bankCreateDTO) {
         Bank bank = new Bank();
 
-        bank.setBankName(bankDTO.getBankName());
-        bank.setBankSerialNumber(bankDTO.getBankSerialNumber());
+        bank.setBankName(bankCreateDTO.getBankName());
+        bank.setBankSerialNumber(bankCreateDTO.getBankSerialNumber());
 
         return bank;
     }

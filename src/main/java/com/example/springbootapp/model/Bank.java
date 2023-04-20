@@ -21,8 +21,6 @@ public class Bank {
     private String bankName;
 
     @Column(name = "serial_number")
-    @NotEmpty(message = "Serial number should not be empty")
-    @Pattern(regexp = "")
     private long bankSerialNumber;
 
     @OneToMany(mappedBy = "bank")
@@ -81,21 +79,12 @@ public class Bank {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Bank bank = (Bank) o;
-
-        if (id != bank.id) return false;
-        if (bankSerialNumber != bank.bankSerialNumber) return false;
-        if (!Objects.equals(bankName, bank.bankName)) return false;
-        return Objects.equals(clients, bank.clients);
+        return id == bank.id && Objects.equals(bankName, bank.bankName) && Objects.equals(bankSerialNumber, bank.bankSerialNumber) && Objects.equals(clients, bank.clients);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (bankName != null ? bankName.hashCode() : 0);
-        result = 31 * result + (int) (bankSerialNumber ^ (bankSerialNumber >>> 32));
-        result = 31 * result + (clients != null ? clients.hashCode() : 0);
-        return result;
+        return Objects.hash(id, bankName, bankSerialNumber, clients);
     }
 }

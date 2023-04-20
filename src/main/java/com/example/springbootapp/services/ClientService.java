@@ -1,7 +1,9 @@
 package com.example.springbootapp.services;
 
 import com.example.springbootapp.dto.ClientUpdateDTO;
+import com.example.springbootapp.model.Bank;
 import com.example.springbootapp.model.Client;
+import com.example.springbootapp.repositories.BankRepository;
 import com.example.springbootapp.repositories.ClientRepository;
 import com.example.springbootapp.util.client.ClientNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,11 @@ import java.util.Optional;
 public class ClientService {
     private ClientRepository clientRepository;
 
-    public ClientService(ClientRepository clientRepository) {
+    private BankRepository bankRepository;
+
+    public ClientService(ClientRepository clientRepository, BankRepository bankRepository) {
         this.clientRepository = clientRepository;
+        this.bankRepository = bankRepository;
     }
 
     public Client findClientById(int id) {
@@ -36,11 +41,14 @@ public class ClientService {
         clientRepository.save(client);
     }
 
-    public void update(int id, ClientUpdateDTO clientUpdate) {
+    public void update(int id, ClientUpdateDTO clientUpdateDTO) {
         Client client = findClientById(id);
-        client.setPhoneNumber(clientUpdate.getPhoneNumber());
-        client.setEmail(clientUpdate.getEmail());
-
+        if(clientUpdateDTO.getPhoneNumber() != null) {
+            client.setPhoneNumber(clientUpdateDTO.getPhoneNumber());
+        }
+        if(clientUpdateDTO.getEmail() != null) {
+            client.setEmail(clientUpdateDTO.getEmail());
+        }
         clientRepository.save(client);
     }
 
@@ -49,6 +57,14 @@ public class ClientService {
             throw new ClientNotFoundException();
         }
         clientRepository.delete(findClientById(id));
+    }
+
+    public void setBankClient(int id, long serial) {
+            Client client = findClientById(id);
+            Bank bank = bankRepository.findBankByBankName(bankName);
+            client.setBank(bank);
+            bank.addClient(client);
+            clientRepository.save(client);
     }
 
     private void enrichClient(Client client) {

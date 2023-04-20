@@ -16,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/client")
@@ -52,8 +53,8 @@ public class ClientController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<HttpStatus> update(@PathVariable int id, @RequestBody @Valid ClientUpdateDTO client,
+    @PatchMapping("/{id}")
+    public ResponseEntity<HttpStatus> update(@PathVariable int id, @RequestBody ClientUpdateDTO clientUpdateDTO,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
@@ -67,8 +68,28 @@ public class ClientController {
 
             throw new ClientNotUpdateException(errorMessage.toString());
         }
-        clientService.update(id, client);
+        clientService.update(id, clientUpdateDTO);
 
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/addbank")
+    public ResponseEntity<HttpStatus> setBankClient(@PathVariable int id, @RequestBody String bankName,
+                                                    BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for(FieldError error : errors) {
+                errorMessage.append(error.getField())
+                        .append(" - ").append(error.getDefaultMessage())
+                        .append(";");
+            }
+
+            throw new ClientNotFoundException(errorMessage.toString());
+        }
+        clientService.setBankClient(id, bankName);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

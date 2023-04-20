@@ -6,9 +6,10 @@ import jakarta.validation.constraints.Pattern;
 
 public class ClientUpdateDTO {
     @Email
-    @NotEmpty(message = "Email should not be empty")
+    @NotEmpty
     private String email;
 
+    @NotEmpty
     @Pattern(regexp = "^(\\+7|7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$", message = "Does not match the russian number")
     private String phoneNumber;
 
