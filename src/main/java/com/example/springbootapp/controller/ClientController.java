@@ -75,22 +75,8 @@ public class ClientController {
     }
 
     @PostMapping("/{id}/addbank")
-    public ResponseEntity<HttpStatus> setBankClient(@PathVariable int id, @RequestBody String bankName,
-                                                    BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
-
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for(FieldError error : errors) {
-                errorMessage.append(error.getField())
-                        .append(" - ").append(error.getDefaultMessage())
-                        .append(";");
-            }
-
-            throw new ClientNotFoundException(errorMessage.toString());
-        }
+    public void setBankClient(@PathVariable int id, @RequestParam String bankName) {
         clientService.setBankClient(id, bankName);
-        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -100,9 +86,8 @@ public class ClientController {
 
     private Client covertToClient(ClientCreateDTO clientCreateDTO) {
         Client client = new Client();
-
-        client.setFirstName(clientCreateDTO.getFirstName());
-        client.setSecondName(clientCreateDTO.getSecondName());
+        client.setFirstname(clientCreateDTO.getFirstname());
+        client.setLastname(clientCreateDTO.getLastname());
         client.setEmail(clientCreateDTO.getEmail());
         client.setPhoneNumber(clientCreateDTO.getPhoneNumber());
 

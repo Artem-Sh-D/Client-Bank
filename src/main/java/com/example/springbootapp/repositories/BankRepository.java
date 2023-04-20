@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BankRepository extends JpaRepository<Bank,Integer> {
-    public boolean readBankByBankNameEquals(long serial);
+    public Bank findBankByName(String bankName);
 }

@@ -6,13 +6,13 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class ClientCreateDTO {
-    @NotEmpty(message = "First name should not be empty")
-    @Size(min = 2, max = 30, message = "First name should be between 2 and 30 characters")
-    private String firstName;
+    @NotEmpty(message = "Firstname should not be empty")
+    @Size(min = 2, max = 30, message = "Firstname should be between 2 and 30 characters")
+    private String firstname;
 
-    @NotEmpty(message = "Second name should not be empty")
-    @Size(min = 2, max = 30, message = "Second name should be between 2 and 30 characters")
-    private String secondName;
+    @NotEmpty(message = "Lastname should not be empty")
+    @Size(min = 2, max = 30, message = "Lastname should be between 2 and 30 characters")
+    private String lastname;
 
     @Email
     @NotEmpty(message = "Email should not be empty")
@@ -21,27 +21,27 @@ public class ClientCreateDTO {
     @Pattern(regexp = "^(\\+7|7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$", message = "Does not match the russian number")
     private String phoneNumber;
 
-    public ClientCreateDTO(String firstName, String secondName, String email, String phoneNumber) {
-        this.firstName = firstName;
-        this.secondName = secondName;
+    public ClientCreateDTO(String firstname, String lastname, String email, String phoneNumber) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {

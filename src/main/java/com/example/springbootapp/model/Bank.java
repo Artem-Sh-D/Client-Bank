@@ -2,7 +2,6 @@ package com.example.springbootapp.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -18,19 +17,19 @@ public class Bank {
     @Column(name = "bank_name")
     @NotEmpty(message = "Bank name should not be empty")
     @Size(min = 2, max = 30, message = "Bank name should be between 2 and 30 characters")
-    private String bankName;
+    private String name;
 
     @Column(name = "serial_number")
-    private long bankSerialNumber;
+    private long serialNumber;
 
     @OneToMany(mappedBy = "bank")
     private List<Client> clients;
     public Bank() {
     }
 
-    public Bank(String bankName, long bankSerialNumber) {
-        this.bankName = bankName;
-        this.bankSerialNumber = bankSerialNumber;
+    public Bank(String name, long serialNumber) {
+        this.name = name;
+        this.serialNumber = serialNumber;
     }
 
     public int getId() {
@@ -41,14 +40,20 @@ public class Bank {
         this.id = id;
     }
 
-    public String getBankName() { return bankName; }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    public String getName() {
+        return name;
     }
 
-    public long getBankSerialNumber() {
-        return bankSerialNumber;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(long serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public List<Client> getClients() {
@@ -59,20 +64,8 @@ public class Bank {
         this.clients = clients;
     }
 
-    public void setNewClients(List<Client> clients) {
-        this.clients = clients;
-    }
-
-    public void addClient(Client client) {
-        clients.add(client);
-    }
-
-    public void removeClient(Client client) {
-        clients.removeIf(client1 -> client1 == client);
-    }
-
-    public void setBankSerialNumber(long bankSerialNumber) {
-        this.bankSerialNumber = bankSerialNumber;
+    public void setClients(Client client) {
+       this.clients.add(client);
     }
 
     @Override
@@ -80,11 +73,11 @@ public class Bank {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bank bank = (Bank) o;
-        return id == bank.id && Objects.equals(bankName, bank.bankName) && Objects.equals(bankSerialNumber, bank.bankSerialNumber) && Objects.equals(clients, bank.clients);
+        return id == bank.id && serialNumber == bank.serialNumber && Objects.equals(name, bank.name) && Objects.equals(clients, bank.clients);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, bankName, bankSerialNumber, clients);
+        return Objects.hash(id, name, serialNumber, clients);
     }
 }

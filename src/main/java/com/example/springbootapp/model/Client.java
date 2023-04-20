@@ -12,15 +12,15 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "first_name")
+    @Column(name = "firstname")
     @NotEmpty(message = "First name should not be empty")
     @Size(min = 2, max = 30, message = "First name should be between 2 and 30 characters")
-    private String firstName;
+    private String firstname;
 
-    @Column(name = "second_name")
-    @NotEmpty(message = "Second name should not be empty")
+    @Column(name = "lastname")
+    @NotEmpty(message = "Lastname should not be empty")
     @Size(min = 2, max = 30, message = "Second name should be between 2 and 30 characters")
-    private String secondName;
+    private String lastname;
 
     @Column(name = "email")
     @Email
@@ -31,15 +31,15 @@ public class Client {
     @Pattern(regexp = "^(\\+7|7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$", message = "Does not match the russian number")
     private String phoneNumber;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "created")
+    private LocalDateTime created;
 
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
+    @Column(name = "updated")
+    private LocalDateTime updated;
 
-    @Column(name = "created_who")
+    @Column(name = "created_by")
     @NotEmpty
-    private String createdWho;
+    private String createdBy;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Bank bank;
@@ -49,9 +49,9 @@ public class Client {
     public Client() {
     }
 
-    public Client(String firstName, String secondName, String email, String phoneNumber) {
-        this.firstName = firstName;
-        this.secondName = secondName;
+    public Client(String firstname, String lastname, String email, String phoneNumber) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
@@ -64,20 +64,20 @@ public class Client {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {
@@ -96,6 +96,30 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
     public Bank getBank() {
         return bank;
     }
@@ -104,54 +128,17 @@ public class Client {
         this.bank = bank;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(LocalDateTime updateAt) {
-        this.updateAt = updateAt;
-    }
-
-    public String getCreatedWho() {
-        return createdWho;
-    }
-
-    public void setCreatedWho(String createdWho) {
-        this.createdWho = createdWho;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Client client = (Client) o;
-
-        if (id != client.id) return false;
-        if (!Objects.equals(firstName, client.firstName)) return false;
-        if (!Objects.equals(secondName, client.secondName)) return false;
-        if (!Objects.equals(email, client.email)) return false;
-        if (!Objects.equals(phoneNumber, client.phoneNumber)) return false;
-        return Objects.equals(bank, client.bank);
+        return id == client.id && Objects.equals(firstname, client.firstname) && Objects.equals(lastname, client.lastname) && Objects.equals(email, client.email) && Objects.equals(phoneNumber, client.phoneNumber) && Objects.equals(created, client.created) && Objects.equals(updated, client.updated) && Objects.equals(createdBy, client.createdBy) && Objects.equals(bank, client.bank);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (secondName != null ? secondName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        result = 31 * result + (bank != null ? bank.hashCode() : 0);
-        return result;
+        return Objects.hash(id, firstname, lastname, email, phoneNumber, created, updated, createdBy, bank);
     }
-
 }

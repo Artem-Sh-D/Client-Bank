@@ -58,8 +58,8 @@ public class BankController {
     private Bank convertToBank(BankCreateDTO bankCreateDTO) {
         Bank bank = new Bank();
 
-        bank.setBankName(bankCreateDTO.getBankName());
-        bank.setBankSerialNumber(bankCreateDTO.getBankSerialNumber());
+        bank.setName(bankCreateDTO.getName());
+        bank.setSerialNumber(bankCreateDTO.getSerialNumber());
 
         return bank;
     }

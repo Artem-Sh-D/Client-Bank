@@ -6,6 +6,7 @@ import com.example.springbootapp.model.Client;
 import com.example.springbootapp.repositories.BankRepository;
 import com.example.springbootapp.repositories.ClientRepository;
 import com.example.springbootapp.util.client.ClientNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ClientService {
     private ClientRepository clientRepository;
 
@@ -29,7 +31,7 @@ public class ClientService {
     }
 
     public Client findClientByFirstName(String firstName) {
-       return clientRepository.findClientByFirstName(firstName);
+       return clientRepository.findClientByFirstname(firstName);
     }
 
     public List<Client> findAll() {
@@ -59,18 +61,17 @@ public class ClientService {
         clientRepository.delete(findClientById(id));
     }
 
-    public void setBankClient(int id, long serial) {
+    public void setBankClient(int id, String bankName) {
             Client client = findClientById(id);
-            Bank bank = bankRepository.findBankByBankName(bankName);
+            Bank bank = bankRepository.findBankByName(bankName);
             client.setBank(bank);
-            bank.addClient(client);
-            clientRepository.save(client);
+            bank.setClients(client);
     }
 
     private void enrichClient(Client client) {
-        client.setCreatedAt(LocalDateTime.now());
-        client.setUpdateAt(LocalDateTime.now());
-        client.setCreatedWho("ADMIN");
+        client.setCreated(LocalDateTime.now());
+        client.setUpdated(LocalDateTime.now());
+        client.setCreatedBy("ADMIN");
     }
 
     public Client findClientByEmail(String email) {
@@ -78,7 +79,7 @@ public class ClientService {
     }
 
     public Client findClientBySecondName(String secondName) {
-        return clientRepository.findClientBySecondName(secondName);
+        return clientRepository.findClientByLastname(secondName);
     }
 
 

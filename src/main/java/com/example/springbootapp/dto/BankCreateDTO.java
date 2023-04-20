@@ -7,28 +7,28 @@ public class BankCreateDTO {
 
     @NotEmpty(message = "Bank name should not be empty")
     @Size(min = 2, max = 30, message = "Bank name should be between 2 and 30 characters")
-    private String bankName;
+    private String name;
 
-    private long bankSerialNumber;
+    private long serialNumber;
 
-    public BankCreateDTO(String bankName, long bankSerialNumber) {
-        this.bankName = bankName;
-        this.bankSerialNumber = bankSerialNumber;
+    public BankCreateDTO(String name, long serialNumber) {
+        this.name = name;
+        this.serialNumber = serialNumber;
     }
 
-    public String getBankName() {
-        return bankName;
+    public String getName() {
+        return name;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public long getBankSerialNumber() {
-        return bankSerialNumber;
+    public long getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setBankSerialNumber(long bankSerialNumber) {
-        this.bankSerialNumber = bankSerialNumber;
+    public void setSerialNumber(long serialNumber) {
+        this.serialNumber = serialNumber;
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface ClientRepository extends JpaRepository<Client,Integer> {
 
     public Client findClientByEmail(String email);
-    public Client findClientBySecondName(String secondName);
-    public Client findClientByFirstName(String firstName);
+    public Client findClientByLastname(String secondName);
+    public Client findClientByFirstname(String firstName);
 }
